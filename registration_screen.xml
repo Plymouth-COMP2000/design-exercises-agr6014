@@ -42,6 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.10"/>
+    <!-- Allows the creation of a textbox, and the border ins made and importaed as a drawable object -->
 
     <EditText
         android:id="@+id/last_name_input"
