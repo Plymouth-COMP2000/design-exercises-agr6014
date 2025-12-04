@@ -227,7 +227,7 @@
     <Button
         android:id="@+id/edit_item_button"
         android:layout_width="150dp"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_centerInParent="true"
         android:text="Edit item"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -240,7 +240,7 @@
     <Button
         android:id="@+id/add_item_button"
         android:layout_width="100dp"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_centerInParent="true"
         android:text="+"
         android:textSize="20sp"
@@ -255,7 +255,7 @@
     <Button
         android:id="@+id/back_button"
         android:layout_width="100dp"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_centerInParent="true"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
