@@ -69,7 +69,7 @@
     <!-- This will show you what reservations you have made -->
 
     <Button
-        android:id="@+id/back_button"
+        android:id="@id/back_to_start"
         android:layout_width="100dp"
         android:layout_height="70dp"
         android:layout_centerInParent="true"
