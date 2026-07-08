@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment_member_home"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/member_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Gym"
+            app:menu="@menu/overflow_menu" />
+
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gym"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="150dp"/>
+
+        <Button
+            android:id="@+id/member_view_trainers_button"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="View trainers"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"/>
+
+        <Button
+            android:id="@+id/member_make_booking_button"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Make booking"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp" />
+
+        <Button
+            android:id="@+id/member_view_bookings_button"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="View bookings"
+            android:textSize="24sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="100dp"/>
+
+        <Button
+            android:id="@+id/member_back_choice"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:textSize="24sp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+    <!--
+    <ImageButton
+        android:id="@+id/member_options_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="top|end"
+        android:background="@android:color/transparent"
+        android:contentDescription="Options menu"
+        android:src="@android:drawable/ic_menu_info_details"/>
+        This will act as the "view account details" section
+        A frame layout has been used to choose where i want the button -->
+
+</FrameLayout>
