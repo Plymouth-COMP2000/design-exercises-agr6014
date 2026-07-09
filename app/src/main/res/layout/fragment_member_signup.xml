@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment_member_signup"
+    android:orientation="vertical">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gym"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="150dp"/>
+
+    <EditText
+        android:id="@+id/member_firstname_type"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:autofillHints="name"
+        android:hint="First name"
+        android:layout_gravity="center"/>
+    <!-- In order to take inputs, edit text boxes are required -->
+
+    <EditText
+        android:id="@+id/member_lastname_type"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:autofillHints="name"
+        android:hint="last name"
+        android:layout_gravity="center"/>
+
+    <EditText
+        android:id="@+id/member_email_type"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:autofillHints="emailAddress"
+        android:hint="Email"
+        android:layout_gravity="center"/>
+
+    <EditText
+        android:id="@+id/member_phone_type"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:autofillHints="phone"
+        android:hint="Phone number"
+        android:layout_gravity="center"/>
+
+    <EditText
+        android:id="@+id/member_password_type"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:autofillHints="password"
+        android:hint="Password"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/create_account_button"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Create Account"
+        android:textSize="24sp"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/member_back_choice"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textSize="24sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"/>
+
+</LinearLayout>

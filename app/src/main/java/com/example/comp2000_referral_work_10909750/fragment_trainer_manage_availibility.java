@@ -8,57 +8,85 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link fragment_manage_availibility#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class fragment_manage_availibility extends Fragment {
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import androidx.annotation.NonNull;
+import com.example.comp2000_referral_work_10909750.R;
+// This will let me use "R"
+import com.example.comp2000_referral_work_10909750.MainActivity;
+import androidx.appcompat.widget.Toolbar;
+import android.view.MenuItem;
+// These will allow for the overflow menu
+import android.widget.Spinner;
+import android.widget.CheckBox;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public fragment_manage_availibility() {
-        // Required empty public constructor
+public class fragment_trainer_manage_availibility extends Fragment {
+    public fragment_trainer_manage_availibility() {
+        super(R.layout.fragment_trainer_manage_availibility);
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_manage_availibility.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static fragment_manage_availibility newInstance(String param1, String param2) {
-        fragment_manage_availibility fragment = new fragment_manage_availibility();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    // Makes it so this fragment will be used
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_manage_availibility, container, false);
+
+        Spinner trainer_time_availibility_spinner = view.findViewById(R.id.trainer_time_availibility_spinner);
+
+        CheckBox trainer_status_checkbox = view.findViewById(R.id.trainer_status_checkbox);
+
+        Button trainer_submit_status_button = view.findViewById(R.id.trainer_submit_status_button);
+        Button trainer_back_home = view.findViewById(R.id.trainer_back_home);
+        // This finds the ids of the buttons#
+        // Meaning that they will perform the actions i want them to
+
+        Toolbar toolbar = view.findViewById(R.id.trainer_tool_bar);
+        // Hopefully the toolbar will now work!!!
+
+        String [] availiability = {
+                "Monday   10:00 - 11:00",
+                "Monday   11:00 - 12:00",
+                "Monday   12:00 - 13:00",
+                "Monday   14:00 - 15:00",
+                "Monday   15:00 - 16:00",
+                "Monday   16:00 - 17:00",
+                "Tuesday  10:00 - 11:00",
+                "Tuesday  11:00 - 12:00",
+
+        };
+        ArrayAdapter<String> availability_spinner_adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                availiability
+        );
+        trainer_time_availibility_spinner.setAdapter(availability_spinner_adapter);
+
+        // Under here i want to put the checkbox
+
+
+        trainer_submit_status_button.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).openFragment(
+                    new fragment_trainer_home()
+            );
+
+        });
+
+        trainer_back_home.setOnClickListener(v -> {
+            ((MainActivity) requireActivity()).openFragment(
+                    new fragment_trainer_home()
+            );
+
+        });
+
+        // The on click listeners will load the fragments wanted (basically changing the UI)
+
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.view_account_details) {
+                ((MainActivity) requireActivity()).openFragment(new fragment_trainer_account_details());
+                return true;
+            }
+            return false;
+        });
+        // This in theory will allow for the transition to the account details
+
     }
 }

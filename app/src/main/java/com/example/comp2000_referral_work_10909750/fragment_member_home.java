@@ -68,7 +68,7 @@ public class fragment_member_home extends Fragment {
         // The on click listeners will load the fragments wanted (basically changing the UI)
 
         toolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.member_view_account_details) {
+            if (item.getItemId() == R.id.view_account_details) {
                 ((MainActivity) requireActivity()).openFragment(new fragment_member_account_details());
                 return true;
             }
