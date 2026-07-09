@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment_trainer_home"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/trainer_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Gym"
+            app:menu="@menu/overflow_menu" />
+
+    <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gym"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="150dp"/>
+
+        <Button
+            android:id="@+id/trainer_manage_availiability_button"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Manage availibility"
+            android:textSize="24sp"
+            android:layout_marginBottom="30dp"/>
+
+        <Button
+            android:id="@+id/trainer_view_bookings_button"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="View bookings"
+            android:textSize="24sp"
+            android:layout_marginBottom="30dp"/>
+
+        <Button
+            android:id="@+id/trainer_view_member_details_button"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="View member details"
+            android:textSize="24sp"
+            android:layout_marginBottom="100dp"/>
+
+        <Button
+            android:id="@+id/trainer_back_login"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+    <!--
+    <ImageButton
+        android:id="@+id/trainer_options_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="top|end"
+        android:background="@android:color/transparent"
+        android:contentDescription="Options menu"
+        android:src="@android:drawable/ic_menu_info_details"/>
+    -->
+
+</FrameLayout>

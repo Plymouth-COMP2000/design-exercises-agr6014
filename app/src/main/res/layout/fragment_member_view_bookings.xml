@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment_member_view_bookings"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/member_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Gym"
+            app:menu="@menu/overflow_menu" />
+
+        <!-- TODO: Update blank fragment layout -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gym"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/member_view_bookings_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+        <!-- This recyceler view will show all of the bookings made by the member -->
+
+        <Spinner
+            android:id="@+id/member_cancel_choice_spinner"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:layout_marginBottom="30dp"/>
+        <!-- This will let the user select what booking to cancel -->
+
+        <Button
+            android:id="@+id/member_cancel_booking_button"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textSize="24sp"
+            android:layout_marginBottom="100dp"/>
+
+        <Button
+            android:id="@+id/member_back_home"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textSize="24sp"/>
+
+    </LinearLayout>
+    <!--
+    <ImageButton
+        android:id="@+id/member_options_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="top|end"
+        android:background="@android:color/transparent"
+        android:contentDescription="Options menu"
+        android:src="@android:drawable/ic_menu_info_details"/>
+    -->
+
+</FrameLayout>
