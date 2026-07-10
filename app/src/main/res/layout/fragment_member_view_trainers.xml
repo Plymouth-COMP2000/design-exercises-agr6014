@@ -20,15 +20,15 @@
             app:title="Gym"
             app:menu="@menu/overflow_menu" />
 
-        <!-- TODO: Update blank fragment layout -->
+        <!--
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Gym"
             android:textSize="32sp"
             android:textStyle="bold"
-            android:gravity="center"
-            />
+            android:gravity="center"/>
+        -->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/view_trainer_recycler_view"
