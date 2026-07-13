@@ -1,5 +1,6 @@
 package com.example.comp2000_referral_work_10909750;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 // These will help with the making and filling of the databases
@@ -7,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 // This will allow some fields to be null
 import android.content.Context;
+import android.database.Cursor;
 
 public class database extends SQLiteOpenHelper{
     private static String database_name = "gym.db";
@@ -97,6 +99,85 @@ public class database extends SQLiteOpenHelper{
         onCreate(database);
     }
     // This gets rid of the old databases and replaces them with updated ones
+
+    // Next i need to actually add the methods
+
+    public long insert_account(String firstname, String lastname, String email, String phone, String password, String role) {
+
+        SQLiteDatabase db = getWritableDatabase();
+        // This opens the database and makes it so i can write data
+
+        ContentValues values = new ContentValues();
+
+        values.put(account_firstname, firstname);
+        values.put(account_lastname, lastname);
+        values.put(account_email, email);
+        values.put(account_phone, phone);
+        values.put(account_password, password);
+        values.put(account_role, role);
+        // This adds values
+
+        return db.insert(account_table, null, values);
+    }
+    // Now i will do the cursor queries for the accounts table
+    // What is needed?
+    // Probably the get by id (since that is unique)
+
+    public  Cursor get_account_id(int id) {
+        SQLiteDatabase db = getReadableDatabase();
+        // Since we are just getting details by the id, it makes sense to use readable
+
+        return db.query(account_table, null, account_id + " = ?",
+                new String[]{
+                        String.valueOf(id)},
+                null,
+                null,
+                null,
+                "1"
+        );
+        // Accessing the right table, not looking for specific columns, where statement (" = ?" is apparently standard and acts as a placeholder)
+        // Then the following one gives the value of id
+        // no need to order details
+
+    }
+
+    public Cursor get_trainers() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        return db.query(account_table, null, account_role + " = ?",
+                new String[]{
+                        "Trainer"
+                },
+                null,
+                null,
+                account_lastname + " ASC"
+        );
+        // Similar to get account id, but have ordered it to make it easier when booking/viewing trainers
+
+
+    }
+
+    public int account_update(int id, String firstname, String lastname, String email, String phone) {
+        SQLiteDatabase db = getWritableDatabase();
+        // Updating, therefore i need to change details and write to the database
+
+        ContentValues values = new ContentValues();
+
+        values.put(account_firstname, firstname);
+        values.put(account_lastname, lastname);
+        values.put(account_email, email);
+        values.put(account_phone, phone);
+        // All changeable details
+
+        return db.update(account_table, values, account_id + " = ?",
+                new String[]{
+                        String.valueOf(id)
+                }
+        );
+        // This returns the SQL querry to update the table
+
+    }
+    // This should conclude the account methods/functions
 
 
 }
