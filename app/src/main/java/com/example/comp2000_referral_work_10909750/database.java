@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import android.content.Context;
 import android.database.Cursor;
 
+import java.util.ArrayList;
+
 public class database extends SQLiteOpenHelper{
     private static String database_name = "gym.db";
     private static int database_version = 1;
@@ -58,14 +60,12 @@ public class database extends SQLiteOpenHelper{
     public static String booking_member_id = "member_id";
     public static String booking_trainer_id = "trainer_id";
     public static String booking_date_time = "Date_time";
-    public static String booking_status = "booking";
 
     private static String create_booking_table = "CREATE TABLE " + booking_table + " (" +
             booking_id + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             booking_member_id + " INTEGER NOT NULL, " +
             booking_trainer_id + " INTEGER NOT NULL, " +
             booking_date_time + " TEXT NOT NULL, " +
-            booking_status + " TEXT NOT NULL DEFAULT 'Confirmed', " +
             "FOREIGN KEY(" + booking_trainer_id + ") REFERENCES " + account_table + "(" + account_id + "), " +
             "FOREIGN KEY(" + booking_member_id + ") REFERENCES " + account_table + "(" + account_id + ")" + ")";
     // This creates the booking table
@@ -178,6 +178,108 @@ public class database extends SQLiteOpenHelper{
 
     }
     // This should conclude the account methods/functions
+
+    public long insert_booking(int member_id, int trainer_id, String date_time) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(booking_member_id, member_id);
+        values.put(booking_trainer_id, trainer_id);
+        values.put(booking_date_time, date_time);
+        // All the values needed for a booking
+        // Who booked, who they booked, when
+
+        return  db.insert(booking_table, null, values);
+    }
+    // This will insert a booking to the table
+
+    // Next i need to make get all the bookings for the member and the ones for the trainer
+
+    public ArrayList<booking_item> get_member_bookings(int id) {
+        ArrayList<booking_item> bookings = new ArrayList<>();
+        // I want to store the information in an array, to put into the recycler view
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.query(booking_table, null, booking_member_id + " = ?",
+                new String[]{
+                        String.valueOf(id)
+                },
+                null,
+                null,
+                booking_date_time + "ASC"
+                );
+
+        while (cursor.moveToNext()) {
+            String member_id = cursor.getString(cursor.getColumnIndexOrThrow(booking_member_id));
+            String trainer_id = cursor.getString(cursor.getColumnIndexOrThrow(booking_trainer_id));
+            String date_time = cursor.getString(cursor.getColumnIndexOrThrow(booking_date_time));
+            // This will allow me to cycle through the table
+
+            bookings.add(new booking_item(member_id, trainer_id, date_time));
+
+
+
+
+        }
+
+        cursor.close();
+
+        return bookings;
+
+
+
+    }
+
+    public ArrayList<booking_item> get_trainer_bookings(int id) {
+        ArrayList<booking_item> bookings = new ArrayList<>();
+        // I want to store the information in an array, to put into the recycler view
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.query(booking_table, null, booking_trainer_id + " = ?",
+                new String[]{
+                        String.valueOf(id)
+                },
+                null,
+                null,
+                booking_date_time + " ASC"
+        );
+
+        while (cursor.moveToNext()) {
+            String member_id = cursor.getString(cursor.getColumnIndexOrThrow(booking_member_id));
+            String trainer_id = cursor.getString(cursor.getColumnIndexOrThrow(booking_trainer_id));
+            String date_time = cursor.getString(cursor.getColumnIndexOrThrow(booking_date_time));
+            // This will allow me to cycle through the table
+
+            bookings.add(new booking_item(member_id, trainer_id, date_time));
+
+
+
+
+        }
+
+        cursor.close();
+
+        return bookings;
+
+
+
+    }
+
+    public int delete_booking(int booking_choice){
+        SQLiteDatabase db = getWritableDatabase();
+
+        return db.delete(booking_table, booking_id + " = ?",
+                new String[]{
+                        String.valueOf(booking_choice)
+                }
+        );
+    }
+    // This will dete the chosen booking
+    // This should do it in terms of booking methods
+
 
 
 }
