@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 // These will allow for the overflow menu
+import android.database.Cursor;
 
 public class fragment_member_view_trainers extends Fragment {
     public fragment_member_view_trainers() {
@@ -33,18 +34,32 @@ public class fragment_member_view_trainers extends Fragment {
         // recyclerview will show the trainers, back button and overflow menu
 
         ArrayList<trainer_item> trainer_items = new ArrayList<>();
+        database db_helper = new database(requireContext());
+        Cursor cursor = db_helper.get_trainers();
 
-        trainer_items.add(new trainer_item(
-                "Alex",
-                "Monday     10:00 - 17:00",
-                "07785883990"
-        ));
+        while (cursor.moveToNext()) {
+            String firstname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_firstname));
+            // This will get the firstname from the database
+            String lastname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_lastname));
+            // Same as above
+            String phone = cursor.getString(cursor.getColumnIndexOrThrow(database.account_phone));
 
-        trainer_items.add(new trainer_item(
-                "Jake",
-                "Monday     10:00 - 15:00",
-                "07783883770"
-        ));
+            trainer_items.add(new trainer_item(firstname + " " + lastname, "Monday  12:00 - 13:00", phone));
+        }
+
+        cursor.close();
+
+       // trainer_items.add(new trainer_item(
+               // "Alex",
+               // "Monday     10:00 - 17:00",
+               // "07785883990"
+       // ));
+
+       // trainer_items.add(new trainer_item(
+               // "Jake",
+               // "Monday     10:00 - 15:00",
+               // "07783883770"
+        // ));
         // This adds values which will be put into the adapter
 
         trainer_adapter adapter = new trainer_adapter(trainer_items);

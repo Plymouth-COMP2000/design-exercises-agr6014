@@ -15,6 +15,17 @@ public class MainActivity extends AppCompatActivity {
         // This sets the main layout as main_activity.xml
         // This is good due to it being the fragment container
 
+        database db_helper = new database(this);
+
+        long trainer_id = db_helper.insert_account("Bob",
+                "Harry",
+                "bob@gmail.com",
+                "07745387290",
+                "password",
+                "Trainer");
+
+        db_helper.insert_availability(1, "Monday    11:00 - 12:00", true);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.main_container, new fragment_start()).commit();

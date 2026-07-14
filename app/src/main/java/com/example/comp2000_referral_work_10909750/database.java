@@ -11,6 +11,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 public class database extends SQLiteOpenHelper{
     private static String database_name = "gym.db";
@@ -212,12 +213,14 @@ public class database extends SQLiteOpenHelper{
                 );
 
         while (cursor.moveToNext()) {
+            int id_for_booking = cursor.getInt(cursor.getColumnIndexOrThrow(booking_id));
+            // Added this to help with cancelling
             String member_id = cursor.getString(cursor.getColumnIndexOrThrow(booking_member_id));
             String trainer_id = cursor.getString(cursor.getColumnIndexOrThrow(booking_trainer_id));
             String date_time = cursor.getString(cursor.getColumnIndexOrThrow(booking_date_time));
             // This will allow me to cycle through the table
 
-            bookings.add(new booking_item(member_id, trainer_id, date_time));
+            bookings.add(new booking_item(id_for_booking, member_id, trainer_id, date_time));
 
 
 
@@ -248,12 +251,13 @@ public class database extends SQLiteOpenHelper{
         );
 
         while (cursor.moveToNext()) {
+            int id_for_booking = cursor.getInt(cursor.getColumnIndexOrThrow(booking_id));
             String member_id = cursor.getString(cursor.getColumnIndexOrThrow(booking_member_id));
             String trainer_id = cursor.getString(cursor.getColumnIndexOrThrow(booking_trainer_id));
             String date_time = cursor.getString(cursor.getColumnIndexOrThrow(booking_date_time));
             // This will allow me to cycle through the table
 
-            bookings.add(new booking_item(member_id, trainer_id, date_time));
+            bookings.add(new booking_item(id_for_booking, member_id, trainer_id, date_time));
 
 
 
@@ -294,6 +298,52 @@ public class database extends SQLiteOpenHelper{
 
     }
     // This will add availiability into the table
+
+    public ArrayList<availability_item> get_availability(int id) {
+        ArrayList<availability_item> availability_items = new ArrayList<>();
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.query(availability_table, null, availability_trainer_id + " = ?",
+                new String[]{
+                        String.valueOf(id)
+                },
+                null,
+                null,
+                availability_date_time + " ASC"
+                );
+
+        while (cursor.moveToNext()) {
+            int position = cursor.getInt(cursor.getColumnIndexOrThrow(availability_id));
+            int trainer_id = cursor.getInt(cursor.getColumnIndexOrThrow(availability_trainer_id));
+            String date_time = cursor.getString(cursor.getColumnIndexOrThrow(availability_date_time));
+            boolean status = cursor.getInt(cursor.getColumnIndexOrThrow(availability_status)) == 1;
+            // getInt has been used here due to the boolean values (1 or 0)
+            // True or false are set as 1 or 0
+
+            availability_items.add(new availability_item(position, trainer_id, date_time, status));
+
+        }
+
+        cursor.close();
+
+        return availability_items;
+
+    }
+
+    public int update_availability(int id, boolean status) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(availability_status, status ? 1 : 0);
+        // the status of each time slot is either true (1) or false (0)
+
+        return db.update(availability_table, values, availability_id + " = ?",
+                new String[]{
+                        String.valueOf(id)
+                });
+    }
 
 
 

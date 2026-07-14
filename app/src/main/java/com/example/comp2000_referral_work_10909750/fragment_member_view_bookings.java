@@ -23,6 +23,7 @@ import android.widget.Spinner;
 
 import java.time.MonthDay;
 import java.util.ArrayList;
+import android.database.Cursor;
 
 public class fragment_member_view_bookings extends Fragment {
     public fragment_member_view_bookings() {
@@ -46,26 +47,39 @@ public class fragment_member_view_bookings extends Fragment {
         // Hopefully the toolbar will now work!!!
 
 
-        ArrayList<booking_item> bookings = new ArrayList<>();
+        // ArrayList<booking_item> bookings = new ArrayList<>();
+        database db_helper = new database(requireContext());
+        int member_id = 1;
+        ArrayList<booking_item> bookings = db_helper.get_member_bookings(member_id);
 
-        bookings.add(new booking_item(
-                "Shawn",
-                "Jack",
-                "Monday     12:00 - 13:00"
-        ));
-        bookings.add(new booking_item(
-                "Bob",
-                "Jack",
-                "Monday     15:00 - 16:00"
-        ));
+
+
+       // bookings.add(new booking_item(
+               // "Shawn",
+               // "Jack",
+               // "Monday     12:00 - 13:00"
+        //));
+        // bookings.add(new booking_item(
+               // "Bob",
+               // "Jack",
+               // "Monday     15:00 - 16:00"
+        //));
         booking_adapter adapter = new booking_adapter(bookings);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
 
-        String [] booking_choice = {
-                "Monday     12:00 - 13:00",
-                "Monday     15:00 - 16:00"
-        };
+       // String [] booking_choice = {
+               // "Monday     12:00 - 13:00",
+               // "Monday     15:00 - 16:00"
+       // };
+
+        ArrayList<String> booking_choice = new ArrayList<>();
+        for (booking_item booking : bookings) {
+            // This will cycle through all the bookings in booking
+            booking_choice.add(booking.getDate_time_on_booking());
+        }
+
+
         ArrayAdapter<String> booking_choice_adapter = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
@@ -74,9 +88,12 @@ public class fragment_member_view_bookings extends Fragment {
         member_cancel_choice_spinner.setAdapter(booking_choice_adapter);
 
         member_cancel_booking_button.setOnClickListener(v -> {
-            ((MainActivity) requireActivity()).openFragment(
-                    new fragment_member_home()
-            );
+            int pos = member_cancel_choice_spinner.getSelectedItemPosition();
+
+            booking_item booking = bookings.get(pos);
+            // Thsi will get the position of the booking in the spinner
+
+            db_helper.delete_booking(booking.getBooking_id());
 
         });
 
@@ -99,4 +116,15 @@ public class fragment_member_view_bookings extends Fragment {
         // This in theory will allow for the transition to the account details
 
     }
+
+    @Override
+    public void onDestroyView() {
+        database db_helper = new database(requireContext());
+        if (db_helper != null) {
+            db_helper.close();
+        }
+
+        super.onDestroyView();
+    }
+
 }
