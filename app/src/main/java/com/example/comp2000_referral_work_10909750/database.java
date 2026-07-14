@@ -281,5 +281,20 @@ public class database extends SQLiteOpenHelper{
     // This should do it in terms of booking methods
 
 
+    public long insert_availability(int id, String date_time, boolean status) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+
+        values.put(availability_trainer_id, id);
+        values.put(availability_date_time, date_time);
+        values.put(availability_status, status);
+
+        return db.insert(availability_table, null, values);
+
+    }
+    // This will add availiability into the table
+
+
 
 }
