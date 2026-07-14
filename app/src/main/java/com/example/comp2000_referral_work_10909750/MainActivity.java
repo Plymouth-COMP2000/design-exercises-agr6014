@@ -24,7 +24,16 @@ public class MainActivity extends AppCompatActivity {
                 "password",
                 "Trainer");
 
+        long member_id = db_helper.insert_account("Harry",
+                "Hock",
+                "harry@gmail.com",
+                "0778998090",
+                "password",
+                "Member");
+
         db_helper.insert_availability(1, "Monday    11:00 - 12:00", true);
+
+        db_helper.insert_booking(2, 1, "Monday      14:00 - 15:00");
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

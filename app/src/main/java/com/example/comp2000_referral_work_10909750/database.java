@@ -158,6 +158,19 @@ public class database extends SQLiteOpenHelper{
 
     }
 
+    public Cursor get_members() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        return db.query(account_table, null, account_role + " = ?",
+                new String[]{
+                        "Member"
+                },
+                null,
+                null,
+                account_lastname + " ASC"
+        );
+    }
+
     public int account_update(int id, String firstname, String lastname, String email, String phone) {
         SQLiteDatabase db = getWritableDatabase();
         // Updating, therefore i need to change details and write to the database
@@ -209,7 +222,8 @@ public class database extends SQLiteOpenHelper{
                 },
                 null,
                 null,
-                booking_date_time + "ASC"
+                booking_date_time + " ASC"
+                // I SPENT AGES FINDING THE ISSUE AND IT WAS BECAUSE I FORGOT TO ADD A SPACE :(
                 );
 
         while (cursor.moveToNext()) {

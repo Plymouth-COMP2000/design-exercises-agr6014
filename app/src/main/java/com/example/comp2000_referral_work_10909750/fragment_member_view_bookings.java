@@ -49,7 +49,7 @@ public class fragment_member_view_bookings extends Fragment {
 
         // ArrayList<booking_item> bookings = new ArrayList<>();
         database db_helper = new database(requireContext());
-        int member_id = 1;
+        int member_id = 2;
         ArrayList<booking_item> bookings = db_helper.get_member_bookings(member_id);
 
 

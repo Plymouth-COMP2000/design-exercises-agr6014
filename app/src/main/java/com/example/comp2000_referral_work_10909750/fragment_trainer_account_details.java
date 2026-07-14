@@ -1,5 +1,6 @@
 package com.example.comp2000_referral_work_10909750;
 
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,7 @@ import  android.widget.TextView;
 
 
 public class fragment_trainer_account_details extends Fragment {
+    private database db_helper;
     public fragment_trainer_account_details() {
         super(R.layout.fragment_trainer_account_details);
     }
@@ -35,6 +37,18 @@ public class fragment_trainer_account_details extends Fragment {
         // This finds the ids of the buttons#
         // Meaning that they will perform the actions i want them to
 
+
+        // Below will show the new added integration
+        db_helper = new database(requireContext());
+        Cursor cursor = db_helper.get_account_id(1);
+        if (cursor.moveToFirst()) {
+            trainer_firstname_text.setText(cursor.getString(cursor.getColumnIndexOrThrow(database.account_firstname)));
+            trainer_lastname_text.setText(cursor.getString(cursor.getColumnIndexOrThrow(database.account_lastname)));
+            trainer_email_text.setText(cursor.getString(cursor.getColumnIndexOrThrow(database.account_email)));
+            trainer_phone_text.setText(cursor.getString(cursor.getColumnIndexOrThrow(database.account_phone)));
+
+
+        }
 
         trainer_modify_details_button.setOnClickListener(v -> {
             ((MainActivity) requireActivity()).openFragment(
@@ -55,5 +69,12 @@ public class fragment_trainer_account_details extends Fragment {
         // The on click listeners will load the fragments wanted (basically changing the UI)
 
 
+    }
+    @Override
+    public void onDestroyView() {
+        if (db_helper != null) {
+            db_helper.close();
+        }
+        super.onDestroyView();
     }
 }

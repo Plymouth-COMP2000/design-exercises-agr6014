@@ -38,13 +38,14 @@ public class fragment_member_view_trainers extends Fragment {
         Cursor cursor = db_helper.get_trainers();
 
         while (cursor.moveToNext()) {
+            int trainer_id = cursor.getInt(cursor.getColumnIndexOrThrow(database.account_id));
             String firstname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_firstname));
             // This will get the firstname from the database
             String lastname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_lastname));
             // Same as above
             String phone = cursor.getString(cursor.getColumnIndexOrThrow(database.account_phone));
 
-            trainer_items.add(new trainer_item(firstname + " " + lastname, "Monday  12:00 - 13:00", phone));
+            trainer_items.add(new trainer_item(trainer_id, firstname + " " + lastname, "Monday  12:00 - 13:00", phone));
         }
 
         cursor.close();

@@ -16,8 +16,11 @@ import java.util.ArrayList;
 import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 // These will allow for the overflow menu
+import android.database.Cursor;
 
 public class fragment_trainer_view_members extends Fragment {
+    private database db_helper;
+
     public fragment_trainer_view_members() {
         super(R.layout.fragment_trainer_view_members);
     }
@@ -32,20 +35,37 @@ public class fragment_trainer_view_members extends Fragment {
         // These are all of the features in the fragment
         // recyclerview will show the trainers, back button and overflow menu
 
-        ArrayList<member_item> member_items = new ArrayList<>();
+        // ArrayList<member_item> member_items = new ArrayList<>();
 
-        member_items.add(new member_item(
-                "Shawn",
-                "shawn@gmail.com",
-                "07785883867"
-        ));
+       // member_items.add(new member_item(
+               // "Shawn",
+               // "shawn@gmail.com",
+               // "07785883867"
+       // ));
 
-        member_items.add(new member_item(
-                "Bob",
-                "bob@gmail.com",
-                "07783576770"
-        ));
+       // member_items.add(new member_item(
+               // "Bob",
+               // "bob@gmail.com",
+               // "07783576770"
+       // ));
         // This adds values which will be put into the adapter
+
+        database db_helper = new database(requireContext());
+
+        ArrayList<member_item> member_items = new ArrayList<>();
+        Cursor cursor = db_helper.get_members();
+
+        while (cursor.moveToNext()) {
+            String firstname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_firstname));
+            String lastname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_lastname));
+            String email = cursor.getString(cursor.getColumnIndexOrThrow(database.account_email));
+            String phone = cursor.getString(cursor.getColumnIndexOrThrow(database.account_phone));
+
+            member_items.add(new member_item(firstname + " " + lastname, email, phone));
+
+        }
+
+        cursor.close();
 
         member_adapter adapter = new member_adapter(member_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -54,12 +74,12 @@ public class fragment_trainer_view_members extends Fragment {
 
         member_back_home.setOnClickListener(v -> {
             ((MainActivity) requireActivity())
-                    .openFragment(new fragment_member_home());
+                    .openFragment(new fragment_trainer_home());
         });
 
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.view_account_details) {
-                ((MainActivity) requireActivity()).openFragment(new fragment_member_account_details());
+                ((MainActivity) requireActivity()).openFragment(new fragment_trainer_account_details());
                 return true;
             }
             return false;

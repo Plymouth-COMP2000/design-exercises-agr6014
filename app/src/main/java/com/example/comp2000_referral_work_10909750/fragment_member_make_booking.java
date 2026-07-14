@@ -18,8 +18,20 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 // These will allow for the overflow menu
 import android.widget.Spinner;
+import android.widget.AdapterView;
+import java.util.ArrayList;
+import android.database.Cursor;
 
 public class fragment_member_make_booking extends Fragment {
+    private database db_helper;
+
+    private ArrayList<availability_item> slots;
+    private ArrayAdapter<availability_item> slot_adapter;
+
+    private ArrayList<trainer_item> trainers;
+    private ArrayAdapter<trainer_item> trainer_adapter;
+
+
     public fragment_member_make_booking() {
         super(R.layout.fragment_member_make_booking);
     }
@@ -44,35 +56,88 @@ public class fragment_member_make_booking extends Fragment {
         // Hopefully the toolbar will now work!!!
 
 
-        String [] trainers = {
-                "Alex",
-                "Jake"
-        };
+       // String [] trainers = {
+               // "Alex",
+               // "Jake"
+       // };
         // Filling in details for now
-        ArrayAdapter<String> trainer_spinner_adapter = new ArrayAdapter<>(
+
+        db_helper = new database(requireContext());
+
+        trainers = new ArrayList<>();
+        Cursor cursor = db_helper.get_trainers();
+        while (cursor.moveToNext()) {
+            int trainer_id = cursor.getInt(cursor.getColumnIndexOrThrow(database.account_id));
+            String firstname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_firstname));
+            String lastname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_lastname));
+            String phone = cursor.getString(cursor.getColumnIndexOrThrow(database.account_phone));
+            trainers.add(new trainer_item(trainer_id, firstname + " " + lastname, "Available", phone));
+        }
+        cursor.close();
+        trainer_adapter = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 trainers
         );
-        trainer_choice_spinner.setAdapter(trainer_spinner_adapter);
+        trainer_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        trainer_choice_spinner.setAdapter(trainer_adapter);
 
+        slots = new ArrayList<>();
+        slot_adapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_dropdown_item, slots);
+        slot_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        time_slot_choice_spinner.setAdapter(slot_adapter);
 
-        String [] timeslots = {
-                "Monday     10:00 - 17:00",
-                "Tuesday    13:00 - 18:00"
-        };
-        ArrayAdapter<String> timeslot_spinner_adapter = new ArrayAdapter<>(
-                requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                timeslots
-        );
-        time_slot_choice_spinner.setAdapter(timeslot_spinner_adapter);
+        trainer_choice_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                slots.clear();
+                // Clears them ready to show up to date slots
+                trainer_item trainer = trainers.get(pos);
+                ArrayList<availability_item> trainer_times = db_helper.get_availability(trainer.getTrainer_id());
+
+                for (availability_item slot : trainer_times) {
+                    if (slot.isStatus()) {
+                        slots.add(slot);
+                        // This will add the up to date dlots
+                    }
+                }
+                slot_adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                slots.clear();
+                slot_adapter.notifyDataSetChanged();
+            }
+        });
+
+       // String [] timeslots = {
+               // "Monday     10:00 - 17:00",
+               // "Tuesday    13:00 - 18:00"
+       // };
+
+        // slots = new ArrayList<>();
+        // slot_adapter = new ArrayAdapter<>(requireContext(),
+               // android.R.layout.simple_spinner_dropdown_item, slots);
+        // slot_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // time_slot_choice_spinner.setAdapter(slot_adapter);
 
 
         member_submit_booking_button.setOnClickListener(v -> {
+            trainer_item trainer = (trainer_item) trainer_choice_spinner.getSelectedItem();
+            availability_item slot = (availability_item) time_slot_choice_spinner.getSelectedItem();
+
+            int member_id = 2;
+            db_helper.insert_booking(member_id, trainer.getTrainer_id(), slot.getDate_time());
+            db_helper.update_availability(slot.getAvailability_id(), false);
+            // These will add the booking to the booking table and make the slot unavailible
+
             ((MainActivity) requireActivity()).openFragment(
-                    new fragment_member_home()
+                    new fragment_member_view_bookings()
             );
+            // This will now show you the booking after it has been made
+
 
         });
 
@@ -97,4 +162,14 @@ public class fragment_member_make_booking extends Fragment {
         // This in theory will allow for the transition to the account details
 
     }
+
+    @Override
+    public void onDestroyView() {
+        if (db_helper != null) {
+            db_helper.close();
+        }
+        super.onDestroyView();
+    }
+
+
 }
