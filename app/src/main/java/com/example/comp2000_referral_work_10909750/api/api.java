@@ -78,4 +78,46 @@ public class api {
         queue.add(request);
 
     }
+
+    public static void create_user(Context context, user user) {
+        start_queue(context);
+        String url = main_url + "/create_user/10909750";
+
+        try {
+
+
+            JSONObject json_request = new JSONObject(gson.toJson(user));
+            // Originally wasn't a try-catch, but was changed due to an error with JSONObject
+            // It was needed to add a JSONException in the case of an invalid JSON format
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, json_request,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
+
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                        }
+                    }
+            );
+            queue.add(request);
+
+        } catch (JSONException e) {
+            Log.e("Format error", "Invalid format: " + e.getMessage());
+        }
+        // This was needed to handle incorrect formatting
+    }
+
+    public static void update_user(Context context, user current_user) {
+        start_queue(context);
+        String url = main_url + "/update_user/10909750/" + current_user;
+        // Because you can only change your own account details, i am making it so that the username of the user is appended to the end of the string
+
+    }
+
+
+
 }
