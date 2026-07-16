@@ -20,6 +20,8 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 // This will let me log errors that may occur
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class api {
     private static String main_url = "http://10.240.72.69/comp2000/";
@@ -35,4 +37,45 @@ public class api {
         }
     }
     // This will allow me to start the queue
+
+    public static void get_all_users(Context context) {
+        start_queue(context);
+        // Calling the function here will let me add requests to the queue later
+        String url = main_url + "/read_all_users/10909750";
+        // This is the endpoint in the api to read all users stored in the api
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray json_response) {
+
+                        Type list = new TypeToken<List<user>>() {}.getType();
+                        List<user> users = gson.fromJson(json_response.toString(), list);
+                        // This will convert the Json file from the api to a Java object
+
+                        for (user user : users) {
+                            Log.d("User details\n",
+                                    "First name: " + user.getFirstname() +
+                                    "\nLast name: " + user.getLastname() +
+                                    "\nEmail: " + user.getEmail() +
+                                    "\nPhone: " + user.getPhone());
+                        }
+                        // This will log the name, email, and phone number of each user
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volley_error) {
+                        Log.e("User error\n","Error getting user details: " + volley_error.getMessage());
+                    }
+                    // This will tell me the error that is occuring
+                }
+
+
+        );
+
+        queue.add(request);
+
+    }
 }
