@@ -1,0 +1,38 @@
+package com.example.comp2000_referral_work_10909750.api;
+
+import com.android.volley.Request;
+// This will allow me to send requests
+import com.android.volley.RequestQueue;
+// This will let me make a queue
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+// Gson is going to be used to convert to and from JSON
+import com.google.gson.reflect.TypeToken;
+// This should keep generic information when converting
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.content.Context;
+import android.util.Log;
+// This will let me log errors that may occur
+
+public class api {
+    private static String main_url = "http://10.240.72.69/comp2000/";
+    private static Gson gson = new Gson();
+    // This will let me convert to and from JSON due to the api storing the data in JSON
+    private static RequestQueue queue;
+    // This will allow me to make a queue
+    // Only one request will happen at a time :)
+
+    private static void start_queue(Context context) {
+        if (queue == null) {
+            queue = Volley.newRequestQueue(context.getApplicationContext());
+        }
+    }
+    // This will allow me to start the queue
+}
