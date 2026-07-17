@@ -38,13 +38,13 @@ public class api {
     }
     // This will allow me to start the queue
 
-    public  interface callback {
+    public  interface callback_user {
         void success(List<user> users);
         void error(String message);
     }
     // Due to volley making requests in async, I modified the code to use callbacks
 
-    public static void get_all_users(Context context, callback callback) {
+    public static void get_all_users(Context context, callback_user callback) {
         start_queue(context);
         // Calling the function here will let me add requests to the queue later
         String url = main_url + "/read_all_users/10909750";

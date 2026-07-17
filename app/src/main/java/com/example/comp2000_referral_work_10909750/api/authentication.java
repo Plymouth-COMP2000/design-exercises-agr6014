@@ -36,7 +36,31 @@ public class authentication {
     }
     // Callback for login
 
-    public static void login() {
+    public static void login(Context context, String email, String password, String role, callback_login callback) {
+        if (email.isEmpty() || password.isEmpty()) {
+            callback.error("Email and password are currently empty");
+            return;
+        }
+        // This will check if both fields are empty, if either are then an error message will appear
+
+        api.get_all_users(context, new api.callback_user() {
+
+            @Override
+            public void success(List<user> users) {
+                for (user user: users) {
+                    if (user.getEmail() == null || user.getPassword() == null || user.getRole() == null) {
+                        continue;
+                    }
+                    // This will check if the email, password, or role are null
+                }
+            }
+
+            @Override
+            public void error(String message) {
+
+            }
+
+        });
 
     }
 
