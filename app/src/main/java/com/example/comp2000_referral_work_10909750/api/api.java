@@ -24,7 +24,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public class api {
-    private static String main_url = "http://10.240.72.69/comp2000/";
+    private static String main_url = "http://10.240.72.69/comp2000";
     private static Gson gson = new Gson();
     // This will let me convert to and from JSON due to the api storing the data in JSON
     private static RequestQueue queue;
@@ -38,7 +38,13 @@ public class api {
     }
     // This will allow me to start the queue
 
-    public static void get_all_users(Context context) {
+    public  interface callback {
+        void success(List<user> users);
+        void error(String message);
+    }
+    // Due to volley making requests in async, I modified the code to use callbacks
+
+    public static void get_all_users(Context context, callback callback) {
         start_queue(context);
         // Calling the function here will let me add requests to the queue later
         String url = main_url + "/read_all_users/10909750";
@@ -62,12 +68,16 @@ public class api {
                         }
                         // This will log the name, email, and phone number of each user
 
+                        callback.success(users);
+                        // if successful, a callback will be made
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volley_error) {
                         Log.e("User error\n","Error getting user details: " + volley_error.getMessage());
+
+                        callback.error("Error getting the users");
                     }
                     // This will tell me the error that is occuring
                 }
