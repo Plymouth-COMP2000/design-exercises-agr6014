@@ -92,14 +92,18 @@ public class api {
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, json_request,
                     new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(JSONObject jsonObject) {
+                        public void onResponse(JSONObject json_response) {
+                            String message = json_response.optString("Message", "New member added");
+                            Log.d("User added", message);
+                            // This log the fact that a new account has been created
 
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-
+                        public void onErrorResponse(VolleyError volley_error) {
+                            Log.e("Creation error", "Unable to create account: " + volley_error.getMessage());
+                            // This will log the error, making it clear thsat the account was unable to be created
                         }
                     }
             );
@@ -111,10 +115,34 @@ public class api {
         // This was needed to handle incorrect formatting
     }
 
-    public static void update_user(Context context, user current_user) {
+    public static void update_user(Context context, user user, String username) {
         start_queue(context);
-        String url = main_url + "/update_user/10909750/" + current_user;
+        String url = main_url + "/update_user/10909750/" + username;
         // Because you can only change your own account details, i am making it so that the username of the user is appended to the end of the string
+
+        try {
+            JSONObject json_request = new JSONObject(gson.toJson(user));
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, json_request,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject json_response) {
+                            String message = json_response.optString("Message", "Member details updated");
+                            Log.d("User details updated", message);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volley_error) {
+                            Log.d("Unable to update", "Unable to update account details: " + volley_error.getMessage());
+                        }
+                    }
+
+            );
+            queue.add(request);
+
+        }  catch (JSONException e) {
+                Log.e("Format error", "Invalid format: " + e.getMessage());
+        }
 
     }
 
