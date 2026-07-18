@@ -1,19 +1,25 @@
 package com.example.comp2000_referral_work_10909750.api;
 
 public class user {
-    private int id;
+    private String id;
+    private String username;
     private String firstname;
     private String lastname;
     private String email;
-    private String phone;
+    private String contact;
     private String password;
-    private String role;
+    private String userType;
     // These are the key information of each user
     // I am unsure if i need to match to be the same as on the api
+    /// I have updated these so that it better matches the the rest API
 
 
-    public int getId() {
+    public String getId() {
         return id;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getFirstname() {
@@ -28,21 +34,25 @@ public class user {
         return email;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getContact() {
+        return contact;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public String getRole() {
-        return role;
+    public String getUserType() {
+        return userType;
     }
     // This concludes all of the getters
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setFirstname(String firstname) {
@@ -57,16 +67,16 @@ public class user {
         this.email = email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
     // This concludes all of the setters
 }

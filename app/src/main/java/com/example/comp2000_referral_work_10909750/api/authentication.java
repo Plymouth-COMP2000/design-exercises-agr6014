@@ -22,6 +22,8 @@ import android.util.Log;
 // This will let me log errors that may occur
 import java.lang.reflect.Type;
 import java.util.List;
+import android.content.SharedPreferences;
+// This will be used to store the username in order to store specific operations
 
 
 public class authentication {
@@ -48,27 +50,72 @@ public class authentication {
             @Override
             public void success(List<user> users) {
                 for (user user: users) {
-                    if (user.getEmail() == null || user.getPassword() == null || user.getRole() == null) {
+                    if (user.getEmail() == null || user.getPassword() == null || user.getUserType() == null) {
                         continue;
                     }
                     // This will check if the email, password, or role are null
+
+                    boolean matches_email = user.getEmail().equalsIgnoreCase(email);
+                    boolean matches_password = user.getPassword().equals(password);
+                    boolean matches_role = user.getUserType().equalsIgnoreCase(role);
+                    // Email and role isn't case sensitive, whereas the password is
+
+
+                    if (matches_email && matches_password && matches_role) {
+                        current_user(context, user);
+
+                        callback.success();
+                        return;
+                    }
+
                 }
+                callback.error("Wrong credentials");
+
             }
 
             @Override
             public void error(String message) {
-
+                Log.e("Login error", "Wrong credentials");
             }
 
         });
 
     }
 
-    public static void member_login() {
-
+    public static void member_login(Context context, String email, String password, callback_login callback) {
+        login(context, email, password, "Member", callback);
     }
 
-    public static void trainer_login() {
+    public static void trainer_login(Context context, String email, String password, callback_login callback) {
+        login(context, email, password, "Trainer", callback);
+    }
+
+    private static void current_user(Context context, user current_user) {
+        SharedPreferences preferences = context.getSharedPreferences("Current user", Context.MODE_PRIVATE);
+
+        preferences.edit().putString("id", current_user.getId())
+                .putString("username", current_user.getUsername())
+                .putString("firstname", current_user.getFirstname())
+                .putString("lastname", current_user.getLastname())
+                .putString("email", current_user.getEmail())
+                .putString("phone", current_user.getContact())
+                .putString("role", current_user.getUserType()).apply();
+    }
+
+    public static user get_current_user_details(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences("Current user", Context.MODE_PRIVATE);
+
+        user current_user = new user();
+
+        current_user.setId(preferences.getString("id", ""));
+        current_user.setUsername(preferences.getString("username", ""));
+        current_user.setFirstname(preferences.getString("firstname", ""));
+        current_user.setLastname(preferences.getString("lastname", ""));
+        current_user.setEmail(preferences.getString("email", ""));
+        current_user.setContact(preferences.getString("phone", ""));
+        current_user.setUserType(preferences.getString("role", ""));
+
+        return current_user;
 
     }
 

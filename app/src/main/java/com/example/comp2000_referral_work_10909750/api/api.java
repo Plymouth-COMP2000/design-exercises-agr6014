@@ -50,26 +50,35 @@ public class api {
         String url = main_url + "/read_all_users/10909750";
         // This is the endpoint in the api to read all users stored in the api
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray json_response) {
+                    public void onResponse(JSONObject json_response) {
 
-                        Type list = new TypeToken<List<user>>() {}.getType();
-                        List<user> users = gson.fromJson(json_response.toString(), list);
-                        // This will convert the Json file from the api to a Java object
+                        try {
 
-                        for (user user : users) {
-                            Log.d("User details\n",
-                                    "First name: " + user.getFirstname() +
-                                    "\nLast name: " + user.getLastname() +
-                                    "\nEmail: " + user.getEmail() +
-                                    "\nPhone: " + user.getPhone());
+                            JSONArray users_array = json_response.getJSONArray("users");
+
+                            Type list = new TypeToken<List<user>>() {
+                            }.getType();
+                            List<user> users = gson.fromJson(users_array.toString(), list);
+                            // This will convert the Json file from the api to a Java object
+
+                            for (user user : users) {
+                                Log.d("User details\n",
+                                        "First name: " + user.getFirstname() +
+                                                "\nLast name: " + user.getLastname() +
+                                                "\nEmail: " + user.getEmail() +
+                                                "\nPhone: " + user.getContact());
+                            }
+                            // This will log the name, email, and phone number of each user
+
+                            callback.success(users);
+                            // if successful, a callback will be made
+
+                        } catch (JSONException e) {
+                            Log.e("Unable to read", "Unable to read users: " + e.getMessage());
                         }
-                        // This will log the name, email, and phone number of each user
-
-                        callback.success(users);
-                        // if successful, a callback will be made
                     }
                 },
                 new Response.ErrorListener() {
