@@ -40,7 +40,7 @@ public class fragment_trainer_login extends Fragment {
             String email = staff_email_type.getText().toString();
             String password = staff_password_type.getText().toString();
 
-            authentication.member_login(requireContext(), email, password, new authentication.callback_login() {
+            authentication.trainer_login(requireContext(), email, password, new authentication.callback_login() {
                 @Override
                 public void success() {
 
