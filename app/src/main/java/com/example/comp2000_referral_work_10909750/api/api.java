@@ -43,6 +43,14 @@ public class api {
         void error(String message);
     }
     // Due to volley making requests in async, I modified the code to use callbacks
+    ///  This seems to only work for the get request :(
+
+    public interface message_callback {
+        void success(String message);
+        void error(String message);
+    }
+    // Due to not using a list, this will be able to do callbacks for the POST and PUT methods
+
 
     public static void get_all_users(Context context, callback_user callback) {
         start_queue(context);
@@ -98,7 +106,7 @@ public class api {
 
     }
 
-    public static void create_user(Context context, user user) {
+    public static void create_user(Context context, user user, message_callback callback) {
         start_queue(context);
         String url = main_url + "/create_user/10909750";
 
@@ -116,11 +124,13 @@ public class api {
                             Log.d("User added", message);
                             // This log the fact that a new account has been created
 
+                            callback.success(message);
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volley_error) {
+
                             Log.e("Creation error", "Unable to create account: " + volley_error.getMessage());
                             // This will log the error, making it clear thsat the account was unable to be created
                         }
@@ -134,7 +144,7 @@ public class api {
         // This was needed to handle incorrect formatting
     }
 
-    public static void update_user(Context context, user user, String username) {
+    public static void update_user(Context context, user user, String username, message_callback callback) {
         start_queue(context);
         String url = main_url + "/update_user/10909750/" + username;
         // Because you can only change your own account details, i am making it so that the username of the user is appended to the end of the string
@@ -147,6 +157,7 @@ public class api {
                         public void onResponse(JSONObject json_response) {
                             String message = json_response.optString("Message", "Member details updated");
                             Log.d("User details updated", message);
+                            callback.success(message);
                         }
                     },
                     new Response.ErrorListener() {
