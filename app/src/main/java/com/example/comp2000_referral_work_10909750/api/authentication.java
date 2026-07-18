@@ -62,7 +62,7 @@ public class authentication {
 
 
                     if (matches_email && matches_password && matches_role) {
-                        current_user(context, user);
+                        current_user_save(context, user);
 
                         callback.success();
                         return;
@@ -90,7 +90,7 @@ public class authentication {
         login(context, email, password, "Trainer", callback);
     }
 
-    private static void current_user(Context context, user current_user) {
+    public static void current_user_save(Context context, user current_user) {
         SharedPreferences preferences = context.getSharedPreferences("Current user", Context.MODE_PRIVATE);
 
         preferences.edit().putString("id", current_user.getId())
