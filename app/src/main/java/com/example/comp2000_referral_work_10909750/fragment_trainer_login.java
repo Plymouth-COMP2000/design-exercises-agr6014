@@ -14,6 +14,9 @@ import androidx.annotation.NonNull;
 import com.example.comp2000_referral_work_10909750.R;
 // This will let me use "R"
 import com.example.comp2000_referral_work_10909750.MainActivity;
+import com.example.comp2000_referral_work_10909750.api.authentication;
+import android.widget.Toast;
+
 
 public class fragment_trainer_login extends Fragment {
     public fragment_trainer_login() {
@@ -34,9 +37,26 @@ public class fragment_trainer_login extends Fragment {
         // Meaning that they will perform the actions i want them to
 
         staff_login_button.setOnClickListener(v -> {
-            ((MainActivity) requireActivity()).openFragment(
-                    new fragment_trainer_home()
-            );
+            String email = staff_email_type.getText().toString();
+            String password = staff_password_type.getText().toString();
+
+            authentication.member_login(requireContext(), email, password, new authentication.callback_login() {
+                @Override
+                public void success() {
+
+                    Toast.makeText(requireContext(), "Login successful", Toast.LENGTH_SHORT).show();
+
+                    ((MainActivity) requireActivity()).openFragment(
+                            new fragment_trainer_home()
+                    );
+                }
+                // If the credentials match and the login is successful, they will enter the app
+
+                @Override
+                public void error(String message) {
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                }
+            });
 
         });
 
