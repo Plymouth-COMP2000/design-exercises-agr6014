@@ -1,23 +1,23 @@
 package com.example.comp2000_referral_work_10909750;
 
 public class trainer_item {
-    private int trainer_id;
+    // private int trainer_id;
     // Allows for database methods
     private String trainer_name;
     private String trainer_availability;
     private String trainer_phone;
 
-    public trainer_item(int trainer_id, String trainer_name, String trainer_availability, String trainer_phone) {
-        this.trainer_id = trainer_id;
+    public trainer_item( String trainer_name, String trainer_availability, String trainer_phone) {
+        // this.trainer_id = trainer_id;
         this.trainer_name = trainer_name;
         this.trainer_availability = trainer_availability;
         this.trainer_phone = trainer_phone;
     }
     // This is the basic OOP approach
 
-    public int getTrainer_id() {
-        return trainer_id;
-    }
+   // public int getTrainer_id() {
+      //  return trainer_id;
+   // }
 
     public String getTrainer_name() {
         return trainer_name;

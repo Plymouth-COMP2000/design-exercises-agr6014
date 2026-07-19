@@ -7,10 +7,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
-public class member_adapter extends RecyclerView.Adapter<member_adapter.MenuViewHolder> {
-    private ArrayList<member_item> member_items;
+import com.example.comp2000_referral_work_10909750.api.api;
+import com.example.comp2000_referral_work_10909750.api.user;
+// These will allow me to get the users from the api
 
-    public member_adapter(ArrayList<member_item> member_items) {
+
+public class member_adapter extends RecyclerView.Adapter<member_adapter.MenuViewHolder> {
+    private ArrayList<user> member_items;
+
+    public member_adapter(ArrayList<user> member_items) {
         this.member_items = member_items;
     }
 
@@ -28,11 +33,13 @@ public class member_adapter extends RecyclerView.Adapter<member_adapter.MenuView
     public void onBindViewHolder(@NonNull MenuViewHolder holder,
                                  int position) {
 
-        member_item item = member_items.get(position);
+        user item = member_items.get(position);
 
-        holder.member_name.setText(item.getMember_name());
-        holder.member_email.setText(item.getMember_email());
-        holder.member_phone.setText(item.getMember_phone());
+        String name = item.getFirstname() + " " + item.getLastname();
+
+        holder.member_name.setText(name);
+        holder.member_email.setText(item.getEmail());
+        holder.member_phone.setText(item.getContact());
 
     }
     // This gets the value of each attribute

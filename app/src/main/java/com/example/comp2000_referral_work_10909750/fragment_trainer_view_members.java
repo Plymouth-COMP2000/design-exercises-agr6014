@@ -17,9 +17,13 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 // These will allow for the overflow menu
 import android.database.Cursor;
+import com.example.comp2000_referral_work_10909750.api.api;
+import com.example.comp2000_referral_work_10909750.api.user;
+// These will allow me to get the users from the api
+import java.util.List;
 
 public class fragment_trainer_view_members extends Fragment {
-    private database db_helper;
+  //  private database db_helper;
 
     public fragment_trainer_view_members() {
         super(R.layout.fragment_trainer_view_members);
@@ -50,27 +54,49 @@ public class fragment_trainer_view_members extends Fragment {
        // ));
         // This adds values which will be put into the adapter
 
-        database db_helper = new database(requireContext());
+        // database db_helper = new database(requireContext());
 
-        ArrayList<member_item> member_items = new ArrayList<>();
-        Cursor cursor = db_helper.get_members();
+        ArrayList<user> member_items = new ArrayList<>();
+      //  Cursor cursor = db_helper.get_members();
 
-        while (cursor.moveToNext()) {
-            String firstname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_firstname));
-            String lastname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_lastname));
-            String email = cursor.getString(cursor.getColumnIndexOrThrow(database.account_email));
-            String phone = cursor.getString(cursor.getColumnIndexOrThrow(database.account_phone));
+      //  while (cursor.moveToNext()) {
+          //  String firstname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_firstname));
+           // String lastname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_lastname));
+           // String email = cursor.getString(cursor.getColumnIndexOrThrow(database.account_email));
+           // String phone = cursor.getString(cursor.getColumnIndexOrThrow(database.account_phone));
 
-            member_items.add(new member_item(firstname + " " + lastname, email, phone));
+           // member_items.add(new member_item(firstname + " " + lastname, email, phone));
 
-        }
+       // }
 
-        cursor.close();
+       // cursor.close();
 
         member_adapter adapter = new member_adapter(member_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerView.setAdapter(adapter);
         // This should fill in the adapter
+
+        api.get_all_users(requireContext(), new api.callback_user() {
+            @Override
+            public void success(List<user> users) {
+                for (user member : users) {
+                    if (member.getUserType().equalsIgnoreCase("Member")) {
+                        // This will check if the account is a trainer account
+                        String name = member.getFirstname() + " " + member.getLastname();
+                        // This will let me combine both the first and last name of the trainer
+                        // trainer_items.add(new trainer_item(name, "To be added", trainer.getContact()));
+
+                        member_items.add(member);
+                    }
+                }
+                adapter.notifyDataSetChanged();;
+            }
+
+            @Override
+            public void error(String message) {
+
+            }
+        });
 
         member_back_home.setOnClickListener(v -> {
             ((MainActivity) requireActivity())

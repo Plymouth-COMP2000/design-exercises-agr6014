@@ -33,8 +33,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trainer_view_members_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginBottom="100dp"/>
+            android:layout_height="584dp"
+            android:layout_marginBottom="20dp" />
 
         <Button
             android:id="@+id/trainer_back_home"

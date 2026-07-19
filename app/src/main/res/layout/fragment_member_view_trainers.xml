@@ -33,7 +33,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/view_trainer_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="450dp"/>
+            android:layout_height="583dp" />
         <!-- This will allow me to add the name and details of each trainer and display them -->
 
         <Button

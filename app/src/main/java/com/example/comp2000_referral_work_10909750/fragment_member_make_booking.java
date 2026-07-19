@@ -71,7 +71,7 @@ public class fragment_member_make_booking extends Fragment {
             String firstname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_firstname));
             String lastname = cursor.getString(cursor.getColumnIndexOrThrow(database.account_lastname));
             String phone = cursor.getString(cursor.getColumnIndexOrThrow(database.account_phone));
-            trainers.add(new trainer_item(trainer_id, firstname + " " + lastname, "Available", phone));
+            trainers.add(new trainer_item( firstname + " " + lastname, "Available", phone));
         }
         cursor.close();
         trainer_adapter = new ArrayAdapter<>(
@@ -94,15 +94,15 @@ public class fragment_member_make_booking extends Fragment {
                 slots.clear();
                 // Clears them ready to show up to date slots
                 trainer_item trainer = trainers.get(pos);
-                ArrayList<availability_item> trainer_times = db_helper.get_availability(trainer.getTrainer_id());
+               // ArrayList<availability_item> trainer_times = db_helper.get_availability(trainer);
 
-                for (availability_item slot : trainer_times) {
-                    if (slot.isStatus()) {
-                        slots.add(slot);
+               // for (availability_item slot : trainer_times) {
+                   // if (slot.isStatus()) {
+                     //   slots.add(slot);
                         // This will add the up to date dlots
-                    }
-                }
-                slot_adapter.notifyDataSetChanged();
+                  //  }
+               // }
+              //  slot_adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -129,8 +129,8 @@ public class fragment_member_make_booking extends Fragment {
             availability_item slot = (availability_item) time_slot_choice_spinner.getSelectedItem();
 
             int member_id = 2;
-            db_helper.insert_booking(member_id, trainer.getTrainer_id(), slot.getDate_time());
-            db_helper.update_availability(slot.getAvailability_id(), false);
+          //  db_helper.insert_booking(member_id, trainer.getTrainer_id(), slot.getDate_time());
+          //  db_helper.update_availability(slot.getAvailability_id(), false);
             // These will add the booking to the booking table and make the slot unavailible
 
             ((MainActivity) requireActivity()).openFragment(

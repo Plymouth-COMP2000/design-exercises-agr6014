@@ -7,10 +7,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import com.example.comp2000_referral_work_10909750.api.user;
 public class trainer_adapter extends RecyclerView.Adapter<trainer_adapter.MenuViewHolder> {
-    private ArrayList<trainer_item> trainer_items;
+    private ArrayList<user> trainer_items;
 
-    public trainer_adapter(ArrayList<trainer_item> trainer_items) {
+    public trainer_adapter(ArrayList<user> trainer_items) {
         this.trainer_items = trainer_items;
     }
 
@@ -28,11 +29,13 @@ public class trainer_adapter extends RecyclerView.Adapter<trainer_adapter.MenuVi
     public void onBindViewHolder(@NonNull MenuViewHolder holder,
                                  int position) {
 
-        trainer_item item = trainer_items.get(position);
+        user item = trainer_items.get(position);
 
-        holder.trainer_name.setText(item.getTrainer_name());
-        holder.trainer_availability.setText(item.getTrainer_availability());
-        holder.trainer_phone.setText(item.getTrainer_phone());
+        String name = item.getFirstname() + " " + item.getLastname();
+
+        holder.trainer_name.setText(name);
+      //  holder.trainer_availability.setText(item.getTrainer_availability());
+        holder.trainer_phone.setText(item.getContact());
 
     }
     // This gets the value of each attribute
