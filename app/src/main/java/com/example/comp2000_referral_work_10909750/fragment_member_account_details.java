@@ -15,10 +15,13 @@ import com.example.comp2000_referral_work_10909750.R;
 import com.example.comp2000_referral_work_10909750.MainActivity;
 import  android.widget.TextView;
 import android.database.Cursor;
+import com.example.comp2000_referral_work_10909750.api.api;
+import com.example.comp2000_referral_work_10909750.api.user;
+import com.example.comp2000_referral_work_10909750.api.authentication;
 
 
 public class fragment_member_account_details extends Fragment {
-    private database db_helper;
+   // private database db_helper;
     public fragment_member_account_details() {
         super(R.layout.fragment_member_account_details);
     }
@@ -38,16 +41,24 @@ public class fragment_member_account_details extends Fragment {
         // Meaning that they will perform the actions i want them to
 
         // Below will show the new added integration
-        db_helper = new database(requireContext());
-        Cursor cursor = db_helper.get_account_id(2);
-        if (cursor.moveToFirst()) {
-            member_firstname_text.setText(cursor.getString(cursor.getColumnIndexOrThrow(database.account_firstname)));
-            member_lastname_text.setText(cursor.getString(cursor.getColumnIndexOrThrow(database.account_lastname)));
-            member_email_text.setText(cursor.getString(cursor.getColumnIndexOrThrow(database.account_email)));
-            member_phone_text.setText(cursor.getString(cursor.getColumnIndexOrThrow(database.account_phone)));
+       // db_helper = new database(requireContext());
+       // Cursor cursor = db_helper.get_account_id(2);
+       // if (cursor.moveToFirst()) {
+           // member_firstname_text.setText(cursor.getString(cursor.getColumnIndexOrThrow(database.account_firstname)));
+           // member_lastname_text.setText(cursor.getString(cursor.getColumnIndexOrThrow(database.account_lastname)));
+           // member_email_text.setText(cursor.getString(cursor.getColumnIndexOrThrow(database.account_email)));
+           // member_phone_text.setText(cursor.getString(cursor.getColumnIndexOrThrow(database.account_phone)));
 
 
-        }
+       // }
+
+        user current_user = authentication.get_current_user_details(requireContext());
+        // This will get the details to then populate the text boxes, showing that i can change them
+
+        member_firstname_text.setText(current_user.getFirstname());
+        member_lastname_text.setText(current_user.getLastname());
+        member_email_text.setText(current_user.getEmail());
+        member_phone_text.setText(current_user.getContact());
 
         member_modify_details_button.setOnClickListener(v -> {
             ((MainActivity) requireActivity()).openFragment(
@@ -69,11 +80,11 @@ public class fragment_member_account_details extends Fragment {
 
 
     }
-    @Override
-    public void onDestroyView() {
-        if (db_helper != null) {
-            db_helper.close();
-        }
-        super.onDestroyView();
-    }
+   // @Override
+   // public void onDestroyView() {
+       // if (db_helper != null) {
+           // db_helper.close();
+       // }
+       // super.onDestroyView();
+   // }
 }
