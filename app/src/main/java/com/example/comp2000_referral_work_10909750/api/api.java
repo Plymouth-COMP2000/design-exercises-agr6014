@@ -24,7 +24,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 public class api {
-    private static String main_url = "http://10.240.72.69/comp2000";
+    private static String main_url = "http://10.240.72.69/comp2000/coursework";
+    // I forgot to add /coursework and it wouldn't let me connect to the api
+    // Now authentication works :)
     private static Gson gson = new Gson();
     // This will let me convert to and from JSON due to the api storing the data in JSON
     private static RequestQueue queue;

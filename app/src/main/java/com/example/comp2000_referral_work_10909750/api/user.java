@@ -1,6 +1,10 @@
 package com.example.comp2000_referral_work_10909750.api;
 
+import com.google.gson.annotations.SerializedName;
+
 public class user {
+    @SerializedName("_id")
+    // This will make it so i can find the _id using the variable "id"
     private String id;
     private String username;
     private String firstname;
@@ -8,6 +12,9 @@ public class user {
     private String email;
     private String contact;
     private String password;
+    @SerializedName("usertype")
+    // This will make it so i can find the usertype using the variable "userType"
+
     private String userType;
     // These are the key information of each user
     // I am unsure if i need to match to be the same as on the api
