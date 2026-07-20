@@ -99,6 +99,8 @@ public class authentication {
                 .putString("lastname", current_user.getLastname())
                 .putString("email", current_user.getEmail())
                 .putString("phone", current_user.getContact())
+                .putString("password", current_user.getPassword())
+                // I forgot to add this originally, now i should be able to update the account
                 .putString("role", current_user.getUserType()).apply();
     }
 
@@ -113,6 +115,8 @@ public class authentication {
         current_user.setLastname(preferences.getString("lastname", ""));
         current_user.setEmail(preferences.getString("email", ""));
         current_user.setContact(preferences.getString("phone", ""));
+        current_user.setPassword(preferences.getString("password", ""));
+        // This will now hopefully let me update the accounts
         current_user.setUserType(preferences.getString("role", ""));
 
         return current_user;
